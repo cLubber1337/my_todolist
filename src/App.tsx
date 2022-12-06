@@ -16,7 +16,8 @@ export const App = () => {
 
   return (
     <div className="App">
-      <Todolist />
+      <Todolist data={tasks1} />
+      <Todolist data={tasks2} />
     </div>
   );
 };

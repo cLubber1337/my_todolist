@@ -1,6 +1,13 @@
 import React from "react";
 
-type TodolistPropsType = {};
+type TodolistPropsType = {
+  data: Array<DataType>;
+};
+type DataType = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
 
 export const Todolist = (props: TodolistPropsType) => {
   return (
@@ -12,15 +19,12 @@ export const Todolist = (props: TodolistPropsType) => {
           <button>+</button>
         </div>
         <ul>
-          <li>
-            <input type="checkbox" checked={true} /> <span>HTML&CSS</span>
-          </li>
-          <li>
-            <input type="checkbox" checked={true} /> <span>JS</span>
-          </li>
-          <li>
-            <input type="checkbox" checked={false} /> <span>React</span>
-          </li>
+          {props.data.map((el) => (
+            <li>
+              <input type="checkbox" checked={el.isDone} />{" "}
+              <span>{el.title}</span>
+            </li>
+          ))}
         </ul>
         <div>
           <button>All</button>
