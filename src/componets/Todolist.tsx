@@ -1,37 +1,40 @@
-import React from "react";
+import React from 'react';
+import {FilterBtnType} from "../App";
 
-type TodolistPropsType = {
-  data: Array<DataType>;
-};
-type DataType = {
-  id: number;
-  title: string;
-  isDone: boolean;
-};
+type TaskType = {
+    id: number
+    title: string
+    isDone: boolean
+}
 
-export const Todolist = (props: TodolistPropsType) => {
-  return (
-    <div>
-      <div>
-        <h3>What to learn</h3>
-        <div>
-          <input />
-          <button>+</button>
+type PropsType = {
+    title: string
+    tasks: Array<TaskType>
+    deleteTask: (id: number) => void
+    changeFilter: (nameBtn: FilterBtnType) => void
+}
+
+export const Todolist = (props: PropsType) => {
+
+    return (<div>
+            <h3>{props.title}</h3>
+            <div>
+                <input/>
+                <button>+</button>
+            </div>
+            <ul>
+                {props.tasks.map(value => (
+                    <li key={value.id}>
+                        <input type="checkbox" checked={value.isDone}/> <span>{value.title}</span>
+                        <button onClick={() => props.deleteTask(value.id)}>✖</button>
+                    </li>))}
+            </ul>
+            <div>
+                <button onClick={() => props.changeFilter("All")}>All</button>
+                <button onClick={() => props.changeFilter("Active")}>Active</button>
+                <button onClick={() => props.changeFilter("Completed")}>Completed</button>
+            </div>
         </div>
-        <ul>
-          {props.data.map((el) => (
-            <li>
-              <input type="checkbox" checked={el.isDone} />{" "}
-              <span>{el.title}</span>
-            </li>
-          ))}
-        </ul>
-        <div>
-          <button>All</button>
-          <button>Active</button>
-          <button>Completed</button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
+
