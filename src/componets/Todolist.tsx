@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import {FilterBtnType, TaskType} from "../App";
 
 
@@ -8,11 +8,26 @@ type PropsType = {
     tasks: Array<TaskType>
     deleteTask: (todoListID: string, id: string) => void
     changeFilter: (todoListID: string, filter: FilterBtnType) => void
+    addTask: (todoListID: string, task: string ) => void
 }
 
 export const Todolist: React.FC<PropsType> = ({
-    title, tasks, deleteTask, changeFilter,todoListID
+    title, tasks, deleteTask, changeFilter,todoListID,
+    addTask
 }) => {
+ const [task, setTask] = useState<string>("")
+
+
+
+    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTask(e.currentTarget.value)
+    }
+    const addTaskOnClickHandler = () => {
+        addTask(todoListID, task)
+        setTask("")
+    }
+
+
 
     const changeFilterOnClickALL = () => changeFilter(todoListID,"All")
     const changeFilterOnClickActive = () => changeFilter(todoListID,"Active")
@@ -21,8 +36,8 @@ export const Todolist: React.FC<PropsType> = ({
     return (<div>
             <h3>{title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input value={task} onChange={inputOnChangeHandler}/>
+                <button onClick={addTaskOnClickHandler}>+</button>
             </div>
             <ul>
                 {tasks.map(value => (
