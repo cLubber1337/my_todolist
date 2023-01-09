@@ -53,6 +53,11 @@ function App() {
     const changeFilter = (todoListID: string, filter:FilterBtnType) => {
         setTodoList(todoList.map(m => m.id === todoListID ? {...m, filter: filter } : m ))
     }
+    
+    const changeTaskStatus = (todoListID: string, taskID: string, isDone: boolean) => {
+        setTasks({...tasks, [todoListID]: tasks[todoListID].map(m => m.id === taskID ? {...m, isDone} : m)})
+    }
+
 
 
 
@@ -76,6 +81,7 @@ function App() {
                     deleteTask={deleteTask}
                     changeFilter={changeFilter}
                     addTask={addTask}
+                    changeTaskStatus={changeTaskStatus}
                 />
 
             })}

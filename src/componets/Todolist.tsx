@@ -8,15 +8,15 @@ type PropsType = {
     tasks: Array<TaskType>
     deleteTask: (todoListID: string, id: string) => void
     changeFilter: (todoListID: string, filter: FilterBtnType) => void
-    addTask: (todoListID: string, task: string ) => void
+    addTask: (todoListID: string, task: string) => void
+    changeTaskStatus: (todoListID: string, taskID: string, isDone: boolean) => void
 }
 
 export const Todolist: React.FC<PropsType> = ({
-    title, tasks, deleteTask, changeFilter,todoListID,
-    addTask
-}) => {
- const [task, setTask] = useState<string>("")
-
+                                                  title, tasks, deleteTask, changeFilter, todoListID,
+                                                  addTask, changeTaskStatus
+                                              }) => {
+    const [task, setTask] = useState<string>("")
 
 
     const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,9 +29,10 @@ export const Todolist: React.FC<PropsType> = ({
 
 
 
-    const changeFilterOnClickALL = () => changeFilter(todoListID,"All")
-    const changeFilterOnClickActive = () => changeFilter(todoListID,"Active")
-    const changeFilterOnClickCompleted = () => changeFilter(todoListID,"Completed")
+
+    const changeFilterOnClickALL = () => changeFilter(todoListID, "All")
+    const changeFilterOnClickActive = () => changeFilter(todoListID, "Active")
+    const changeFilterOnClickCompleted = () => changeFilter(todoListID, "Completed")
 
     return (<div>
             <h3>{title}</h3>
@@ -40,11 +41,18 @@ export const Todolist: React.FC<PropsType> = ({
                 <button onClick={addTaskOnClickHandler}>+</button>
             </div>
             <ul>
-                {tasks.map(value => (
-                    <li key={value.id}>
-                        <input type="checkbox" checked={value.isDone}/> <span>{value.title}</span>
-                        <button onClick={() => deleteTask(todoListID,value.id)}>✖</button>
-                    </li>))}
+                {tasks.map((taskMap) => {
+                    const changeTaskStatusOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                        changeTaskStatus(todoListID, taskMap.id, e.currentTarget.checked )
+                    }
+                    return (
+                        <li key={taskMap.id}>
+                            <input type="checkbox" onChange={changeTaskStatusOnChangeHandler} checked={taskMap.isDone}/>
+                            <span>{taskMap.title}</span>
+                            <button onClick={() => deleteTask(todoListID, taskMap.id)}>✖</button>
+                        </li>
+                    )
+                })}
             </ul>
             <div>
                 <button onClick={changeFilterOnClickALL}>All</button>
